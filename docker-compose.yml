@@ -5,8 +5,8 @@ networks:
     driver: bridge
 
 volumes:
-  alertmanager_data:
-
+  alertmanager_data: {}
+  prometheus_data: {}
 
 services:
   node-exporter:
@@ -35,28 +35,32 @@ services:
     restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus
-      - /home/cra/prometheus_data:/prometheus
+      - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.min-block-duration=2h'
+      - '--storage.tsdb.min-block-duration=1m'
     ports:
       - 9090:9090
     expose:
       - 9090
+    links:
+      - alertmanager:alertmanager
     networks:
       - monitoring
 
   alertmanager:
-    image: prom/alertmanager:latest
+    image: prom/alertmanager
     container_name: alertmanager
     restart: unless-stopped
     ports:
       - 9093:9093
     volumes:
-      - ./alertmanager/alertmanager.yml:/config/alertmanager.yml
+      - ./alertmanager:/etc/alertmanager
       - alertmanager_data:/data
-    command: '--config.file=/config/alertmanager.yml --log.level=debug'
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
   # node-application-monitoring-app:
   #   build:
   #     context: node-application-monitoring-app

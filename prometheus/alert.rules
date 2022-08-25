@@ -2,5 +2,5 @@ groups:
   - name: DemoAlerts
     rules:
       - alert: InstanceDown
-        expr: up{job="prometheus"} < 1
+        expr: up < 1
         for: 5m

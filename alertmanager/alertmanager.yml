@@ -7,7 +7,8 @@ receivers:
   - name: "mail"
     email_configs:
       - smarthost: "smtp.gmail.com:465"
+        require_tls: false
         auth_username: "azmaan.amin.35@gmail.com"
-        auth_password: "pr01831823380"
+        auth_password: ""
         from: "azmaan.amin.35@gmail.com"
         to: "aaz@fiftytwo.com"
