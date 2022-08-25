@@ -1,0 +1,13 @@
+route:
+  receiver: "mail"
+  repeat_interval: 4h
+  group_by: ["alertname"]
+
+receivers:
+  - name: "mail"
+    email_configs:
+      - smarthost: "smtp.gmail.com:465"
+        auth_username: "azmaan.amin.35@gmail.com"
+        auth_password: "pr01831823380"
+        from: "azmaan.amin.35@gmail.com"
+        to: "aaz@fiftytwo.com"
