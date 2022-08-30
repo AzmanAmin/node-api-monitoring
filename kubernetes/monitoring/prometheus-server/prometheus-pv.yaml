@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus-logs
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  csi:
+    driver: file.csi.azure.com
+    readOnly: false
+    volumeHandle: prometheus-logs-volumeid
+    volumeAttributes:
+      shareName: till-fileshare/prometheus-logs
+    nodeStageSecretRef:
+      name: azure-basket-till-secret
+      namespace: backend
+  mountOptions:
+    - dir_mode=0777
+    - file_mode=0777
+    - mfsymlinks
+    - nobrl
+    - nounix
+    - noserverino
